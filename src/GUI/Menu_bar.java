@@ -14,12 +14,9 @@ public class Menu_bar extends JMenuBar
 
     private int x, variation, beginns;
 
-    private ActionListener al, intern_al;
-    public Menu_bar(ActionListener al)
+    public Menu_bar()
     {
         super();
-        this.al = al;
-        createInternAl();
         font = new Font("San Serif", Font.PLAIN, 16);
 
         x = 8;
@@ -40,8 +37,9 @@ public class Menu_bar extends JMenuBar
         createCourt_variation();
         createBeginner();
         createStartGame();
-
         createOptions();
+
+        createActionListeners();
 
     }
 
@@ -95,8 +93,6 @@ public class Menu_bar extends JMenuBar
     {
         SO_MenuRadioButton radioButtonMenuItem = new SO_MenuRadioButton(text);
         radioButtonMenuItem.setFont(font);
-        radioButtonMenuItem.addActionListener(intern_al);
-
         buttonGroup.add(radioButtonMenuItem);
         menu.add(radioButtonMenuItem);
         return radioButtonMenuItem;
@@ -118,7 +114,6 @@ public class Menu_bar extends JMenuBar
     {
         JMenuItem menuItem = new JMenuItem(text);
         menuItem.setFont(font);
-        menuItem.addActionListener(this.al);
         menu.add(menuItem);
 
         return menuItem;
@@ -137,50 +132,19 @@ public class Menu_bar extends JMenuBar
         return beginns;
     }
 
-    private void createInternAl()
+    private void createActionListeners()
     {
-        intern_al = e -> {
-            if(e.getSource() == n_6)
-            {
-                x = 6;
-            }
-            if(e.getSource() == n_7)
-            {
-                x = 7;
-            }
-            if(e.getSource() == n_8)
-            {
-                x = 8;
-            }
-            if(e.getSource() == n_9)
-            {
-                x = 9;
-            }
-            if(e.getSource() == n_10)
-            {
-                x = 10;
-            }
-            if(e.getSource() == v_1)
-            {
-                variation = 1;
-            }
-            if(e.getSource() == v_2)
-            {
-                variation = 2;
-            }
-            if(e.getSource() == v_3)
-            {
-                variation = 3;
-            }
-            if(e.getSource() == s_1)
-            {
-                beginns = 0;
-            }
-            if(e.getSource() == s_2)
-            {
-                beginns = 1;
-            }
+        n_6.addActionListener(e -> x = 6);
+        n_7.addActionListener(e -> x = 7);
+        n_8.addActionListener(e -> x = 8);
+        n_9.addActionListener(e -> x = 9);
+        n_10.addActionListener(e -> x = 10);
 
-        };
+        v_1.addActionListener(e -> variation = 1);
+        v_2.addActionListener(e -> variation = 2);
+        v_3.addActionListener(e -> variation = 3);
+
+        s_1.addActionListener(e -> beginns = 0);
+        s_2.addActionListener(e -> beginns = 1);
     }
 }

@@ -56,6 +56,7 @@ class Coin_panel extends JPanel
     void change_Colors(Color[] colors)
     {
         this.colors = colors;
+        this.setBackground(colors[0]);
     }
 
     void resizeIt(int size, double size_factor)

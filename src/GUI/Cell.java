@@ -13,9 +13,8 @@ class Cell extends JPanel
     private boolean stats[];
     private boolean show_preview;
 
-    Cell(MouseListener ma, Color[] colors)
+    Cell(Color[] colors)
     {
-        this.addMouseListener(ma);
         this.colors = colors;
         this.setBackground(colors[1]);
         stats = new boolean[]{false, false, false, true};
@@ -56,6 +55,12 @@ class Cell extends JPanel
         repaint();
 
     }
+
+    void setMouseListener(MouseListener mouseListener)
+    {
+        this.addMouseListener(mouseListener);
+    }
+
 
     void change_colors(Color[] colors)
     {

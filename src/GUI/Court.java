@@ -10,7 +10,7 @@ public class Court extends JPanel
     private Cell cells[][];
     private int x;
 
-    public Court(int x, MouseListener ma, Color[] colors)
+    public Court(int x, Color[] colors)
     {
         this.x = x;
         this.setLayout(new GridLayout(x, x, 5, 5));
@@ -21,7 +21,7 @@ public class Court extends JPanel
 
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < x; j++) {
-                cells[i][j] = new Cell(ma, colors);
+                cells[i][j] = new Cell(colors);
                 this.add(cells[i][j]);
             }
         }
@@ -36,6 +36,11 @@ public class Court extends JPanel
     {
         cells[row][col].setStats(possible, p1, p2, in_charge);
         this.revalidate();
+    }
+
+    public void setMouseListener(int row, int col, MouseListener mouseListener)
+    {
+        cells[row][col].setMouseListener(mouseListener);
     }
 
     public void changePreview()

@@ -3,13 +3,12 @@ package GUI;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
-import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 
 public class Frame extends JFrame
 {
-    private ActionListener al;
-
     private int width;
     private int height;
     private int side_width;
@@ -24,15 +23,14 @@ public class Frame extends JFrame
     private Court court;
     private JPanel court_edge;
 
-    public Frame(int width, int height, ActionListener al, Menu_bar menu_bar, Color[] colors)
+    public Frame(int width, int height, Menu_bar menu_bar, Color[] colors)
     {
-        this.al = al;
         this.colors = colors;
         this.setSize(width, height);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.addMenuBar(menu_bar);
         this.setLocationRelativeTo(null);
-        this.setVisible(true);
+
 
         this.getContentPane().setLayout(new BorderLayout());
         calculateSizes(this.getContentPane().getWidth(), this.getContentPane().getHeight());
@@ -50,6 +48,20 @@ public class Frame extends JFrame
         this.getContentPane().add(createCourtedge(), BorderLayout.CENTER);
 
         this.getContentPane().revalidate();
+        this.setVisible(true);
+
+        this.addComponentListener(new ComponentListener() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                resizeIt();
+            }
+            @Override
+            public void componentMoved(ComponentEvent e) {}
+            @Override
+            public void componentShown(ComponentEvent e) {}
+            @Override
+            public void componentHidden(ComponentEvent e) {}
+        });
     }
 
     private Title_bar createTitlebar()
@@ -66,7 +78,7 @@ public class Frame extends JFrame
 
     private Action_bar createActionbar()
     {
-        action_bar = new Action_bar(this.width, this.side_height, colors, this.size_factor, this.al);
+        action_bar = new Action_bar(this.width, this.side_height, colors, this.size_factor);
 
         return action_bar;
     }
@@ -164,9 +176,9 @@ public class Frame extends JFrame
         side_height = (this.height - court_size)/2;
     }
 
-    void resizeIt(int width, int height)
+    void resizeIt()
     {
-        calculateSizes(width, height);
+        calculateSizes(this.getContentPane().getWidth(), this.getContentPane().getHeight());
         this.title_bar.resizeIt(this.width, this.side_height, this.size_factor);
         this.left_bar.resizeIt(this.side_width, this.height);
         this.right_bar.resizeIt(this.side_width, this.height);

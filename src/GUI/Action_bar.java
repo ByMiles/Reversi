@@ -2,7 +2,6 @@ package GUI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 
 class Action_bar extends JPanel
@@ -20,7 +19,7 @@ class Action_bar extends JPanel
 
     private JPanel spaces[];
 
-    Action_bar(int width, int height,Color[] colors, double size_factor, ActionListener al)
+    Action_bar(int width, int height,Color[] colors, double size_factor)
     {
         this.setLayout(new GridLayout(1, 6));
         this.setBackground(colors[0]);
@@ -49,13 +48,11 @@ class Action_bar extends JPanel
 
         skip_button = new JButton("Skip");
         skip_button.setFont(font);
-        skip_button.addActionListener(al);
         spaces[3].add(skip_button);
         skip_button.setVisible(false);
 
         undo_button = new JButton("Undo");
         undo_button.setFont(font);
-        undo_button.addActionListener(al);
         spaces[5].add(undo_button);
         undo_button.setVisible(false);
 
