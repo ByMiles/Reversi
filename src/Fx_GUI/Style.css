@@ -1,0 +1,82 @@
+.root
+{
+    -bg-color: #87CEEB;
+    -court-color: rgb(34, 139, 34);
+    -error-color: red;
+    -coin-p1-color: black;
+    -coin-p2-color: white;
+
+    -fx-background-color: -bg-color;
+}
+
+.bevelborder
+{
+    -fx-border-color: lightgray darkgray darkgray lightgray;
+    -fx-border-width: 20;
+    -fx-border-style: solid inside line-join bevel;
+    -fx-border-radius: 10px;
+}
+
+.court
+{
+    -fx-background-color: black;
+    -fx-background-insets: 20;
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.75),5,0,5,5);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.75),5,0,5,5);
+}
+
+.cell
+{
+    -fx-background-color: -court-color;
+}
+
+.titleFont
+{
+    -fx-font:italic bold 48px Georgia, serif;
+}
+
+.actionFont
+{
+    -fx-font:bold 32px Georgia, serif;
+}
+
+.p1_font
+{
+    -fx-fill: -coin-p1-color;
+}
+
+.p2_font
+{
+    -fx-fill: -coin-p2-color;
+}
+
+.neutral_font
+{
+    -fx-fill: red;
+}
+
+.p1_color
+{
+    -fx-fill: radial-gradient(focus-distance 10% , center 30% 30% , radius 100% , grey, -coin-p1-color);
+}
+
+.p2_color
+{
+    -fx-fill: radial-gradient(focus-distance 10% , center 30% 30% , radius 100% , -coin-p2-color, grey);
+}
+
+.dropshadow
+{
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.75),5,0,5,5);
+}
+
+.menuFont
+{
+    -fx-font: 24px serif;
+    -fx-fill: black;
+}
+
+.error
+{
+    -fx-fill: -error-color;
+}

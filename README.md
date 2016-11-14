@@ -1,2 +1,2 @@
 # Reversi
-simple Game
+simple Reversi

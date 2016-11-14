@@ -1,4 +1,4 @@
-package GUI;
+package Swing_GUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,11 +25,6 @@ public class Court extends JPanel
                 this.add(cells[i][j]);
             }
         }
-    }
-
-    public Cell getCell(int row, int col)
-    {
-        return cells[row][col];
     }
 
     public void modifyCell(int row, int col, boolean possible, boolean p1, boolean p2, boolean in_charge)

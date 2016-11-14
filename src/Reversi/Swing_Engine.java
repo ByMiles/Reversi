@@ -1,7 +1,7 @@
-package Game;
+package Reversi;
 
-import GUI.*;
-import GUI.Frame;
+import Swing_GUI.*;
+import Swing_GUI.Frame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 
-public class Engine {
+public class Swing_Engine {
     private Frame frame;
     private Court court;
     private Menu_bar menu_bar;
@@ -22,7 +22,7 @@ public class Engine {
 
     private Color[] colors;
 
-    public Engine(int width, int height) {
+    public Swing_Engine(int width, int height) {
         setDefaultColors();
         menu_bar = new Menu_bar();
         frame = new Frame(width, height, menu_bar, colors);
@@ -67,10 +67,10 @@ public class Engine {
         in_charge = new boolean[2];
         in_charge[menu_bar.getBeginns()] = true;
 
-        nextRound();
+        newRound();
     }
 
-    private void nextRound() {
+    private void newRound() {
         this.round = stats.getCurrentRound();
         if (this.stats.getCurrent() == 1)
             this.frame.getUndoButton().setVisible(true);
@@ -124,6 +124,8 @@ public class Engine {
                 colors[0] = buffer;
             else
                 this.frame.change_colors(colors);});
+
+
         this.menu_bar.court_color.addActionListener(e -> { Color buffer = colors[1];
             colors[1] = JColorChooser.showDialog(null, "Spielfeldfarbe", colors[1]);
             if (colors[1] == null)
@@ -157,7 +159,7 @@ public class Engine {
         switchCoins(row, col);
         this.stats.addNextRound(this.round);
         switchPlayer();
-        nextRound();
+        newRound();
     }
 
     private void switchPlayer() {
@@ -169,7 +171,7 @@ public class Engine {
         this.stats.addNextRound(this.round);
         this.frame.getSkipButton().setVisible(false);
         switchPlayer();
-        nextRound();
+        newRound();
     }
 
     private void undoRound() {
@@ -177,7 +179,7 @@ public class Engine {
         if (this.stats.getCurrent() == 0)
             this.frame.getUndoButton().setVisible(false);
         switchPlayer();
-        nextRound();
+        newRound();
     }
 
     private void checkWin() {

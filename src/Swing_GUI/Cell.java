@@ -1,4 +1,4 @@
-package GUI;
+package Swing_GUI;
 
 
 import javax.swing.*;
@@ -93,4 +93,6 @@ class Cell extends JPanel
             }
         }, 500);
     }
+
+
 }

@@ -1,4 +1,4 @@
-package GUI;
+package Swing_GUI;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -27,7 +27,7 @@ public class Frame extends JFrame
     {
         this.colors = colors;
         this.setSize(width, height);
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        //this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setTitle("Reversi by Miles ;-)");
         this.addMenuBar(menu_bar);
         this.setLocationRelativeTo(null);

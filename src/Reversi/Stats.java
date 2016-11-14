@@ -1,4 +1,4 @@
-package Game;
+package Reversi;
 
 import java.util.ArrayList;
 
