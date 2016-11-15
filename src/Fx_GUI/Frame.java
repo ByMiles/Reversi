@@ -1,58 +1,58 @@
 package Fx_GUI;
 
-import Reversi.Fx_Engine;
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.Menu;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class Frame extends Application {
+public class Frame extends Stage {
 
-    VBox root;
-    Court court;
-    Action_bar action_bar;
-    Title_bar title_bar;
-    BorderPane contentPane;
-    Menu_bar menu_bar;
+    private VBox root;
+    private Court court;
+    private Action_bar action_bar;
+    private Title_bar title_bar;
+    private Side_bar left_bar, right_bar;
+    private BorderPane contentPane;
+
+    private double courtsize, side_width, side_height;
+
+    private String[] colors;
     public double width, height;
-    Fx_Engine engine;
 
-
-   @Override
-    public void start(Stage primaryStage) throws Exception
+    
+    public Frame(double width, double height, Action_bar action_bar, String title)
     {
-        //primaryStage.setOnCloseRequest(event -> Platform.exit());
-
         root = new VBox();
         root.getStylesheets().add("Fx_GUI/Style.css");
 
-        this.width = 1200;
-        this.height = 800;
-        primaryStage.setTitle("Reversi by Miles :-)");
+        calculate_sizes(width, height);
+        title += " by Miles ;-)";
+        this.setTitle(title);
 
         contentPane = new BorderPane();
-        contentPane.setBottom(createAction_bar());
-        contentPane.setTop(createTitle_bar());
+        contentPane.setMinSize(400., 400.);
+        contentPane.setPrefSize(width, height);
+        contentPane.setBottom(addAction_bar(action_bar));
+        contentPane.setTop(createTitle_bar(title));
         contentPane.getStyleClass().add("root");
 
-        engine = new Fx_Engine(this);
-        menu_bar.prefWidthProperty().bind(primaryStage.widthProperty());
+
+        left_bar = new Side_bar(side_width, height);
+        right_bar = new Side_bar(side_width, height);
+        contentPane.setLeft(left_bar);
+        contentPane.setRight(right_bar);
+
+        setDefaultColors();
+
         root.getChildren().add(contentPane);
 
         Scene scene = new Scene(root,width, height);
 
+        scene.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth) -> resizes(contentPane.getWidth(), contentPane.getHeight()));
+        scene.heightProperty().addListener((observableValue, oldSceneHeight, newSceneHeight) -> resizes(contentPane.getWidth(), contentPane.getHeight()));
 
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        this.setScene(scene);
+        this.show();
     }
 
     public void addCourt(Court court)
@@ -64,50 +64,103 @@ public class Frame extends Application {
         catch (Exception ignored){}
         this.court = court;
         contentPane.setCenter(this.court);
+        resizes(contentPane.getWidth(), contentPane.getHeight());
     }
 
-    public Action_bar createAction_bar()
+    private Action_bar addAction_bar(Action_bar action_bar)
     {
-        action_bar = new Action_bar(this.width, this.height*0.1);
+        this.action_bar = action_bar;
+        this.action_bar.resizes(this.width, this.side_height);
         return action_bar;
-
     }
 
-    private Title_bar createTitle_bar()
+    private Title_bar createTitle_bar(String title)
     {
-        title_bar = new Title_bar(this.width, this.height*0.1);
+        title_bar = new Title_bar(this.width, this.height*0.1 - 50, title);
 
         return title_bar;
     }
 
     public void addMenu_bar(Menu_bar menu_bar)
     {
-        this.menu_bar = menu_bar;
-        root.getChildren().add(menu_bar);
-
-
+        menu_bar.prefWidthProperty().bind(this.widthProperty());
+        root.getChildren().add(0, menu_bar);
     }
 
-    public Button getSkipButton()
+
+    void setDefaultColors(){
+
+        colors = new String [5];
+        colors[0] = "-bg-color: rgb(135, 206, 235);\n";
+        colors[1] = "-court-color: rgb(34, 139, 34);\n";
+        colors[2] = "-coin-p1-color: rgb( 0, 0, 0);\n";
+        colors[3] = "-coin-p2-color: rgb( 255, 255, 255);\n";
+        colors[4] = "-error-color: rgb( 255, 0, 0);";
+
+        String color = "";
+
+        for (String s: colors) {
+            color += s;
+        }
+
+        contentPane.setStyle(color);
+    }
+
+    void changeColor(int type, int r, int g, int b)
     {
-        return this.action_bar.skip_button;
+        switch (type)
+        {
+            case 0: colors[0] = String.format("-bg-color: rgb(%d, %d, %d);\n", r, g, b);
+                break;
+            case 1: colors[1] = String.format("-court-color: rgb(%d, %d, %d);\n", r, g, b);
+                break;
+            case 2: colors[2] = String.format("-coin-p1-color: rgb(%d, %d, %d);\n", r, g, b);
+                break;
+            case 3: colors[3] = String.format("-coin-p2-color: rgb(%d, %d, %d);\n", r, g, b);
+                break;
+            case 4: colors[4] = String.format("-error-color: rgb(%d, %d, %d);\n", r, g, b);
+                break;
+        }
+
+        String color = "";
+
+        for (String s: colors) {
+            color += s;
+        }
+
+        contentPane.setStyle(color);
     }
 
-    public Button getUndoButton()
-    {
-        return this.action_bar.undo_button;
-    }
+        private void calculate_sizes(double width, double height)
+        {
+            this.width = width;
+            this.height = height;
 
-    public void actualizeActionBar(int p1, int p2, boolean p1_)
-    {
-        action_bar.setP1_text(String.valueOf(p1));
-        action_bar.setP2_text(String.valueOf(p2));
-        action_bar.inCharge(p1_);
-    }
 
-    public void showWinner(int winner)
-    {
-        this.action_bar.showWinner(winner);
-    }
+            if(this.height >= this.width)
+            {
+                courtsize = this.width * 0.8;
+            }
+            else
+            {
+                courtsize = this.height * 0.8;
+            }
+
+            side_width = (this.width - courtsize)/2;
+            side_height = (this.height - courtsize)/2;
+        }
+
+
+        private void resizes(double width, double height)
+        {
+            calculate_sizes(width, height);
+            court.resizes(courtsize);
+
+            action_bar.resizes(width, side_height);
+            left_bar.resizes(side_width, height);
+            right_bar.resizes(side_width, height);
+
+            title_bar.resizes(width, side_height);
+        }
 
 }

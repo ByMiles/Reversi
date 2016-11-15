@@ -10,19 +10,19 @@ class Title_bar extends JPanel
     private double size_factor;
     private Font font;
 
-    Title_bar(int width, int height, Color[] colors, double size_factor)
+    Title_bar(int width, int height, Color[] colors, double size_factor, String title)
     {
         this.size_factor = size_factor;
 
         this.setPreferredSize(new Dimension(width, height));
         this.setBackground(colors[0]);
 
-        this.add(createTilteLabel());
+        this.add(createTilteLabel(title));
     }
 
-    private JLabel createTilteLabel()
+    private JLabel createTilteLabel(String title)
     {
-        title_label = new JLabel("R e v e r s i");
+        title_label = new JLabel(title);
         font = new Font("Serif", Font.BOLD, (int)(48. * size_factor) );
         title_label.setFont(font);
 

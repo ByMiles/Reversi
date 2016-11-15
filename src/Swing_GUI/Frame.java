@@ -23,12 +23,12 @@ public class Frame extends JFrame
     private Court court;
     private JPanel court_edge;
 
-    public Frame(int width, int height, Menu_bar menu_bar, Color[] colors)
+    public Frame(int width, int height, String title, Menu_bar menu_bar, Action_bar action_bar, Color[] colors)
     {
         this.colors = colors;
         this.setSize(width, height);
-        //this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setTitle("Reversi by Miles ;-)");
+        title += " by Miles ;-)";
+        this.setTitle(title);
         this.addMenuBar(menu_bar);
         this.setLocationRelativeTo(null);
 
@@ -36,7 +36,7 @@ public class Frame extends JFrame
         this.getContentPane().setLayout(new BorderLayout());
         calculateSizes(this.getContentPane().getWidth(), this.getContentPane().getHeight());
 
-        this.getContentPane().add(createTitlebar(), BorderLayout.PAGE_START);
+        this.getContentPane().add(createTitlebar(title), BorderLayout.PAGE_START);
 
         this.left_bar = createSidebar();
         this.getContentPane().add(left_bar, BorderLayout.LINE_START);
@@ -44,7 +44,7 @@ public class Frame extends JFrame
         this.right_bar = createSidebar();
         this.getContentPane().add(right_bar, BorderLayout.LINE_END);
 
-        this.getContentPane().add(createActionbar(), BorderLayout.PAGE_END);
+        this.getContentPane().add(addActionbar(action_bar), BorderLayout.PAGE_END);
 
         this.getContentPane().add(createCourtedge(), BorderLayout.CENTER);
 
@@ -65,9 +65,9 @@ public class Frame extends JFrame
         });
     }
 
-    private Title_bar createTitlebar()
+    private Title_bar createTitlebar(String title)
     {
-        title_bar = new Title_bar(this.width, this.side_height,this.colors, this.size_factor);
+        title_bar = new Title_bar(this.width, this.side_height,this.colors, this.size_factor, title);
 
         return title_bar;
     }
@@ -77,9 +77,10 @@ public class Frame extends JFrame
         return new Side_bar(this.side_width, this.height, this.colors);
     }
 
-    private Action_bar createActionbar()
+    private Action_bar addActionbar(Action_bar action_bar)
     {
-        action_bar = new Action_bar(this.width, this.side_height, colors, this.size_factor);
+        this.action_bar = action_bar;
+        this.action_bar.resizeIt(this.width, this.side_height, this.size_factor);
 
         return action_bar;
     }
@@ -124,28 +125,6 @@ public class Frame extends JFrame
         this.setJMenuBar(menu);
     }
 
-    public void actualizeActionBar(int p1, int p2, boolean p1_)
-    {
-        action_bar.setP1_text(String.valueOf(p1));
-        action_bar.setP2_text(String.valueOf(p2));
-        action_bar.inCharge(p1_);
-    }
-
-    public JButton getSkipButton()
-    {
-        return action_bar.getSkip_button();
-    }
-
-    public JButton getUndoButton()
-    {
-        return action_bar.getUndo_button();
-    }
-
-    public void showWinner(int state)
-    {
-        this.action_bar.callWinner(state);
-    }
-
     public void change_colors(Color[] colors)
     {
         this.colors = colors;
@@ -177,7 +156,7 @@ public class Frame extends JFrame
         side_height = (this.height - court_size)/2;
     }
 
-    void resizeIt()
+    private void resizeIt()
     {
         calculateSizes(this.getContentPane().getWidth(), this.getContentPane().getHeight());
         this.title_bar.resizeIt(this.width, this.side_height, this.size_factor);

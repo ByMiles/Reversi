@@ -2,18 +2,14 @@ package Fx_GUI;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 class Cell extends StackPane
@@ -27,7 +23,10 @@ class Cell extends StackPane
     {
         this.getStylesheets().add("Fx_GUI/Style.css");
         this.getStyleClass().add("cell");
+        this.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         this.cellsize = cellsize;
+
+        this.stats = new boolean[]{false, false, false, true};
 
         this.show_preview = true;
 
@@ -112,11 +111,13 @@ class Cell extends StackPane
                 Duration.millis(1000),
                 ae -> actualize()));
         timeline.play();
-
-
-
     }
 
-
-
+    void resizes(double cellsize)
+    {
+        this.cellsize = cellsize;
+        this.setPrefSize(cellsize, cellsize);
+        this.dropShadow.setRadius(cellsize*0.4);
+        actualize();
+    }
 }

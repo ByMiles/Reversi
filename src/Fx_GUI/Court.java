@@ -4,13 +4,11 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-
 
 
 public class Court extends GridPane
 {
-    Cell[][] cells;
+    private Cell[][] cells;
     private int x;
 
     public Court(int x, double width, double height)
@@ -70,6 +68,21 @@ public class Court extends GridPane
     public void wrongTurn(int row, int col)
     {
         cells[row][col].wrong_turn();
+    }
+
+    void resizes(double size)
+    {
+        double cellsize = ((size - 40.) / x) - 5;
+
+        this.setMaxSize(size, size);
+        this.setPrefSize(size, size);
+
+        for (int row = 0; row < x; row++) {
+            for (int col = 0; col < x; col++) {
+                cells[row][col].resizes(cellsize);
+            }
+
+        }
     }
 
 }

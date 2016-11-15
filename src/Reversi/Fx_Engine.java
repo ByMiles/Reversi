@@ -1,8 +1,9 @@
 package Reversi;
 
 import Fx_GUI.*;
-import javafx.scene.paint.Color;
-
+import Fx_GUI.Court;
+import Fx_GUI.Frame;
+import Fx_GUI.Menu_bar;
 
 
 public class Fx_Engine
@@ -10,6 +11,7 @@ public class Fx_Engine
     private Frame frame;
     private Court court;
     private Menu_bar menu_bar;
+    private Action_bar action_bar;
     private Rules rules;
 
     private boolean[] in_charge;
@@ -18,9 +20,10 @@ public class Fx_Engine
     private boolean[][][] round;
     private int x;
 
-    public Fx_Engine(Frame frame)
+    public Fx_Engine(double width, double height)
     {
-        this.frame = frame;
+        this.action_bar = new Action_bar();
+        this.frame = new Frame(width, height, action_bar, "Reversi");
         this.menu_bar = new Menu_bar(frame);
         this.frame.addMenu_bar(menu_bar);
         createActionListener();
@@ -40,7 +43,6 @@ public class Fx_Engine
         frame.addCourt(court);
 
         newRound();
-
     }
 
     private void newRound() {
@@ -69,12 +71,15 @@ public class Fx_Engine
     {
         if(rules.stats.getCurrent() == 1)
         {
-            frame.getUndoButton().setVisible(true);
+            action_bar.getUndo_button().setVisible(true);
         }
-        frame.actualizeActionBar(rules.stats.getP1Sum(), rules.stats.getP2Sum(), in_charge[0]);
+
+        action_bar.setP1_text(String.valueOf(rules.stats.getP1Sum()));
+        action_bar.setP2_text(String.valueOf(rules.stats.getP2Sum()));
+        action_bar.inCharge(in_charge[0]);
 
         if(!possibles[0] && possibles[1])
-            this.frame.getSkipButton().setVisible(true);
+            action_bar.getSkip_button().setVisible(true);
     }
 
     private void endRound(int row, int col) {
@@ -84,7 +89,7 @@ public class Fx_Engine
 
     private void skipRound(){
         this.rules.skipRound();
-        this.frame.getSkipButton().setVisible(false);
+        action_bar.getSkip_button().setVisible(false);
         newRound();
     }
 
@@ -92,15 +97,15 @@ public class Fx_Engine
     {
         if(!this.rules.undoRound())
         {
-            this.frame.getUndoButton().setVisible(false);
+            action_bar.getUndo_button().setVisible(false);
         }
         newRound();
     }
 
     private void gameOver() {
-        this.frame.getSkipButton().setVisible(false);
-        this.frame.getUndoButton().setVisible(false);
-        this.frame.showWinner(rules.gameOver());
+        action_bar.getSkip_button().setVisible(false);
+        action_bar.getUndo_button().setVisible(false);
+        action_bar.callWinner(rules.gameOver());
     }
 
     private void createMouseAdapter() {
@@ -124,9 +129,9 @@ public class Fx_Engine
     }
 
     private void createActionListener(){
-        this.frame.getSkipButton().setOnMouseReleased(event -> skipRound());
-        this.frame.getUndoButton().setOnMouseReleased(event -> undoRound());
-        this.menu_bar.start_pvp.setOnAction(e -> newGame());
-        this.menu_bar.show_preview.setOnAction(e -> this.court.changePreview());
+        action_bar.getSkip_button().setOnMouseReleased(event -> skipRound());
+        action_bar.getUndo_button().setOnMouseReleased(event -> undoRound());
+        this.menu_bar.getStart_pvp().setOnAction(e -> newGame());
+        this.menu_bar.getShow_preview().setOnAction(e -> this.court.changePreview());
     }
 }

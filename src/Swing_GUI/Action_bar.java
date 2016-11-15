@@ -4,9 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 
-class Action_bar extends JPanel
+public class Action_bar extends JPanel
 {
-    private int size;
     private Color[] colors;
     private Font font;
 
@@ -19,15 +18,11 @@ class Action_bar extends JPanel
 
     private JPanel spaces[];
 
-    Action_bar(int width, int height,Color[] colors, double size_factor)
+    public Action_bar(Color[] colors)
     {
         this.setLayout(new GridLayout(1, 6));
         this.setBackground(colors[0]);
         this.colors = colors;
-        this.setPreferredSize(new Dimension(width, height));
-        this.size = (int)((double)height * 0.8);
-
-        font = new Font("San Serif", Font.BOLD, (int)(26*size_factor));
 
         this.spaces = new JPanel[9];
 
@@ -35,15 +30,13 @@ class Action_bar extends JPanel
         {
             spaces[i] = new JPanel();
             spaces[i].setBackground(colors[0]);
-            int border = (int)((double) height * 0.1);
-            spaces[i].setBorder(BorderFactory.createEmptyBorder(border, border, border, border));
             this.add(spaces[i]);
         }
 
-        p1_coin = new Coin_panel(size, colors, true,  size_factor);
+        p1_coin = new Coin_panel(colors, true);
         spaces[2].add(p1_coin);
 
-        p2_coin = new Coin_panel(size, colors, false, size_factor);
+        p2_coin = new Coin_panel(colors, false);
         spaces[6].add(p2_coin);
 
         skip_button = new JButton("Skip");
@@ -64,27 +57,27 @@ class Action_bar extends JPanel
         winner_label.setVerticalAlignment(JLabel.CENTER);
         spaces[4].add(winner_label);
     }
-    JButton getSkip_button()
+    public JButton getSkip_button()
     {
         return skip_button;
     }
 
-    JButton getUndo_button()
+    public JButton getUndo_button()
     {
         return undo_button;
     }
 
-    void setP1_text(String text)
+    public void setP1_text(String text)
     {
     p1_coin.setText(text);
     }
 
-    void setP2_text(String text)
+    public void setP2_text(String text)
     {
         p2_coin.setText(text);
     }
 
-    void callWinner(int state)
+    public void callWinner(int state)
     {
         switch(state)
         {
@@ -104,7 +97,7 @@ class Action_bar extends JPanel
         }
     }
 
-    void inCharge(boolean p1)
+    public void inCharge(boolean p1)
     {
         this.p1 = p1;
         if(p1) {
@@ -142,14 +135,21 @@ class Action_bar extends JPanel
         this.winner_label.setFont(this.font);
         this.undo_button.setFont(this.font);
         this.skip_button.setFont(this.font);
+        int size;
         if(height < width/7)
-            this.size = (int)((double)height * 0.8);
+            size = (int)((double)height * 0.8);
         else
-            this.size = (int)((double)width/7. * 0.8);
+            size = (int)((double)width/7. * 0.8);
+
+        int border = (int)((double) height * 0.1);
+
+        for (JPanel s:spaces) {
+            s.setBorder(BorderFactory.createEmptyBorder(border, border, border, border));
+        }
 
 
-        this.p1_coin.resizeIt(this.size, size_factor);
-        this.p2_coin.resizeIt(this.size, size_factor);
+        this.p1_coin.resizeIt(size, size_factor);
+        this.p2_coin.resizeIt(size, size_factor);
 
 
 

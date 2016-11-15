@@ -1,7 +1,7 @@
 package Reversi;
 
 
-public class Rules
+class Rules
 {
     Stats stats;
 
@@ -11,7 +11,7 @@ public class Rules
     private boolean[][][] round;
     private int x;
 
-    public Rules(int x, int variation, int beginns)
+    Rules(int x, int variation, int beginns)
     {
         this.x = x;
         possibles = new boolean[]{false, true};
@@ -44,24 +44,24 @@ public class Rules
         stats = new Stats(x, this.round);
     }
 
-    public boolean[][][] getRound()
+    boolean[][][] getRound()
     {
         return round;
     }
-    public boolean[][] getPossible()
+    boolean[][] getPossible()
     {
         return possible;
     }
-    public boolean[] getPossibles()
+    boolean[] getPossibles()
     {
         return possibles;
     }
-    public boolean[] getIn_charge()
+    boolean[] getIn_charge()
     {
         return in_charge;
     }
 
-    public void newRound() {
+    void newRound() {
         this.round = stats.getCurrentRound();
         showPossible();
     }
@@ -118,7 +118,7 @@ public class Rules
         return false;
     }
 
-    public boolean checkWin()
+    boolean checkWin()
     {
         return ((!possibles[0] && !possibles[1]) || stats.getEmptySum() == 0);
     }
@@ -178,13 +178,13 @@ public class Rules
         }
     }
 
-    public void skipRound()
+    void skipRound()
     {
         this.stats.addNextRound(this.round);
         switchPlayer();
     }
 
-    public boolean undoRound()
+    boolean undoRound()
     {
         this.stats.undoRound();
         switchPlayer();
@@ -192,7 +192,7 @@ public class Rules
         return(stats.getCurrent() > 0);
     }
 
-    public int gameOver()
+    int gameOver()
     {
         if (stats.getP1Sum() > stats.getP2Sum())
             return 1;

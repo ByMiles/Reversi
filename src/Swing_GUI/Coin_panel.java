@@ -10,14 +10,12 @@ class Coin_panel extends JPanel
     private boolean p1;
     private JLabel label;
     private int size;
-    Coin_panel(int size,Color[] colors, boolean p1, double size_factor)
+    Coin_panel(Color[] colors, boolean p1)
     {
         this.colors = colors;
         this.p1 = p1;
-        this.setPreferredSize(new Dimension(size, size));
         this.setBackground(colors[0]);
 
-        this.size = size;
         label = new JLabel();
 
         if(p1)
@@ -25,12 +23,10 @@ class Coin_panel extends JPanel
         else
             label.setForeground(colors[2]);
 
-        label.setFont(new Font("San Serif", Font.BOLD, (int)(32*size_factor)));
         label.setVerticalAlignment(JLabel.CENTER);
         label.setVerticalTextPosition(JLabel.CENTER);
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setHorizontalTextPosition(JLabel.CENTER);
-        label.setPreferredSize(new Dimension((int)((double)size * 0.8), (int)((double)size * 0.8)));
         this.add(label);
 
     }

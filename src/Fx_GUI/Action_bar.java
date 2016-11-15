@@ -1,9 +1,7 @@
 package Fx_GUI;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
@@ -11,28 +9,28 @@ import javafx.scene.text.Text;
 
 public class Action_bar extends HBox
 {
-    Button skip_button, undo_button;
-    StackPane winner_label;
-    Coin_panel p1_coin, p2_coin;
-    boolean p1;
+    private Button skip_button, undo_button;
+    private StackPane winner_label;
+    private Coin_panel p1_coin, p2_coin;
 
-    double size;
+    private double size;
+    private int font;
 
 
-    Action_bar(double width, double height)
+    public Action_bar()
     {
-        super(width/50);
         this.setAlignment(Pos.CENTER);
         this.getStylesheets().add("Fx_GUI/Style.css");
-        this.setPrefSize(width, height);
 
-        this.size = height*0.8;
+        fontsize();
 
-        p1_coin = new Coin_panel(size, true);
-        p2_coin = new Coin_panel(size, false);
+        p1_coin = new Coin_panel(true);
+        p2_coin = new Coin_panel(false);
 
         skip_button = new Button("Skip");
+        skip_button.getStyleClass().add("glass-grey");
         undo_button = new Button("Undo");
+        undo_button.getStyleClass().add("glass-grey");
 
         winner_label = new StackPane();
 
@@ -42,22 +40,30 @@ public class Action_bar extends HBox
         skip_button.setVisible(false);
         undo_button.setVisible(false);
     }
+    public Button getSkip_button()
+    {
+        return skip_button;
+    }
 
-    void setP1_text(String text)
+    public Button getUndo_button()
+    {
+        return undo_button;
+    }
+
+    public void setP1_text(String text)
     {
         p1_coin.setText(text);
     }
 
-    void setP2_text(String text)
+    public void setP2_text(String text)
     {
         p2_coin.setText(text);
     }
 
-    void inCharge(boolean p1)
+    public void inCharge(boolean p1)
     {
         winner_label.getChildren().clear();
         Text text = new Text();
-        this.p1 = p1;
         if(p1) {
             text.setText("Spieler 1");
             text.getStyleClass().addAll("actionFont", "p1_font");
@@ -70,7 +76,7 @@ public class Action_bar extends HBox
         winner_label.getChildren().add(text);
     }
 
-    void showWinner(int state)
+    public void callWinner(int state)
     {
         winner_label.getChildren().clear();
         Text text = new Text();
@@ -89,7 +95,29 @@ public class Action_bar extends HBox
                 text.getStyleClass().addAll("actionFont", "neutral_font");
                 break;
         }
+        text.setStyle(String.format("-fx-font-size: %dpx", font));
         winner_label.getChildren().add(text);
+    }
+
+    void resizes(double width, double height)
+    {
+        this.setPrefSize(width, height);
+
+        if(width* 0.08 > height*0.8)
+            size = height * 0.8;
+        else
+            size = width * 0.08;
+
+        this.p1_coin.resizes(size);
+        this.p2_coin.resizes(size);
+        fontsize();
+    }
+
+    private void fontsize()
+    {
+        int defaultFont = 32;
+        font = (int)((double) defaultFont *size/64.);
+        this.setStyle(String.format("-fx-font-size: %dpx", font));
     }
 
 }

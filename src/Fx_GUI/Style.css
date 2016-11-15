@@ -6,6 +6,9 @@
     -coin-p1-color: black;
     -coin-p2-color: white;
 
+    -title-font-size: 48px;
+    -action-font-size: 24px;
+
     -fx-background-color: -bg-color;
 }
 
@@ -32,12 +35,16 @@
 
 .titleFont
 {
-    -fx-font:italic bold 48px Georgia, serif;
+    -fx-font-family: Georgia, serif;
+    -fx-font-style: italic;
+    -fx-font-weight: bold;
 }
+
 
 .actionFont
 {
-    -fx-font:bold 32px Georgia, serif;
+    -fx-font-family: Georgia, serif;
+    -fx-font-weight: bold;
 }
 
 .p1_font
@@ -72,11 +79,22 @@
 
 .menuFont
 {
-    -fx-font: 24px serif;
+    -fx-font: 20px serif;
     -fx-fill: black;
 }
 
 .error
 {
     -fx-fill: -error-color;
+}
+
+.glass-grey {
+    -fx-background-color:
+        #c3c4c4,
+        linear-gradient(#d6d6d6 50%, white 100%),
+        radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0,1,1;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
 }
