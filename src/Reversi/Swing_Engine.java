@@ -54,7 +54,6 @@ public class Swing_Engine {
 
     private void newRound() {
         this.rules.newRound();
-        rules.newRound();
         this.round = rules.getRound();
         this.possible = rules.getPossible();
         this.possibles = rules.getPossibles();
@@ -158,7 +157,10 @@ public class Swing_Engine {
                 this.frame.change_colors(colors);
         });
 
-        this.menu_bar.default_color.addActionListener(e -> setDefaultColors());
+        this.menu_bar.default_color.addActionListener(e -> {
+            setDefaultColors();
+            frame.change_colors(colors);
+        });
     }
 
     private void endRound(int row, int col) {
@@ -193,5 +195,6 @@ public class Swing_Engine {
         Color wrong_turn_color = Color.RED;
 
         colors = new Color[]{bg_color, court_color, p1_color, p2_color, wrong_turn_color};
+
     }
 }

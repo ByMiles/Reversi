@@ -37,7 +37,6 @@ public class Fx_Engine
         int beginns = menu_bar.getBeginns();
         this.rules = new Rules(this.x, variation, beginns);
 
-        rules.getRound();
         court = new Court(this.x, frame.width, frame.height);
         createMouseAdapter();
         frame.addCourt(court);
